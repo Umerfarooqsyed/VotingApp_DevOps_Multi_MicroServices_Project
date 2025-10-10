@@ -20,8 +20,8 @@ variables:
   tag: '$(Build.BuildId)'
 
 
-  pool:
-   name: 'VoteAppPool'
+pool:
+  name: 'VoteAppPool'
 
 stages:
 - stage: Build
@@ -40,7 +40,6 @@ stages:
         tags: '$(tag)'
 
 
-stages:
 - stage: Push
   displayName: push stage
   jobs:
