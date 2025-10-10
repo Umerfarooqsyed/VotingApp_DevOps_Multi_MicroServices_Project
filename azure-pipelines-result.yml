@@ -8,7 +8,6 @@ trigger:
      - result/*
 
 
-
 resources:
 - repo: self
 
@@ -22,7 +21,7 @@ variables:
 
 
   pool:
-   name: 'pipeline-agent'
+   name: 'VoteAppPool'
 
 stages:
 - stage: Build
