@@ -14,10 +14,19 @@ resources:
 
 variables:
 - group: votingapp-secrets
-  containerRegistry: Docker Hub Connection
-  containerRegistryrepository: umerfarooqsyed/voting-app
-  MicroserviceName: vote
-  tag: '$(Build.BuildId)'
+
+- name: containerRegistry
+  value: Docker Hub Connection
+
+- name: containerRegistryrepository
+  value: umerfarooqsyed/voting-app
+
+- name: MicroserviceName
+  value: vote
+
+- name: tag
+  value: $(Build.BuildId)
+
 
 stages:
 - stage: Build
