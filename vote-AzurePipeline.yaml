@@ -13,6 +13,7 @@ resources:
 - repo: self
 
 variables:
+- group: votingapp-secrets
   containerRegistry: Docker Hub Connection
   containerRegistryrepository: umerfarooqsyed/voting-app
   MicroserviceName: vote
