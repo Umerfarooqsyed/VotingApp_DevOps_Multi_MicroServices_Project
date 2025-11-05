@@ -4,7 +4,7 @@ trigger:
      - main
   paths:
    include:
-     - micro-services/$(MicroserviceName)/*
+     - micro-services/worker/*
 
 pool:
  name: 'My Local Agent' 
