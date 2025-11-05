@@ -2,13 +2,7 @@
 
 set -x
 
-#I have kept these variables here just for an idea. During the implementation these files will be kept in Azure key Vaults or any secure location.
-ACCESS_TOKEN="*******"
-ORGANIZATION_NAME=*******
-REGISTRY_NAME=*******
-IMAGE_REPOSITORY=*******
-AZURE_REPONAME=*******
-AZURE_PROJECTNAME=*******
+
 TAG=$BUILD_BUILDID 
 
 
