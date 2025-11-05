@@ -1,0 +1,76 @@
+trigger:
+  branches:
+   include:
+     - main
+  paths:
+   include:
+     - micro-services/$(MicroserviceName)/*
+
+pool:
+ name: 'My Local Agent' 
+
+resources:
+- repo: self
+
+variables:
+- group: votingapp-secrets
+
+- name: containerRegistry
+  value: Docker Hub Connection
+
+- name: containerRegistryrepository
+  value: umerfarooqsyed/voting-app
+
+- name: MicroserviceName
+  value: worker
+
+- name: tag
+  value: $(Build.BuildId)
+
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(containerRegistry)'
+        repository: '$(containerRegistryrepository)'
+        command: 'build'
+        Dockerfile: '$(Build.SourcesDirectory)/micro-services/$(MicroserviceName)/Dockerfile'
+        tags: '$(tag)'
+
+
+- stage: Push
+  displayName: Push image to Docker Hub
+  jobs:
+  - job: Push
+    displayName: Push image to Docker Hub
+    steps:
+    - task: Docker@2
+      displayName: Push image to Docker Hub
+      inputs:
+        containerRegistry: '$(containerRegistry)'
+        repository: '$(containerRegistryrepository)'
+        command: 'push'
+        tags: '$(tag)'
+
+- stage: UpdateManifests
+  displayName: Update k8s manifest files
+  jobs:
+  - job: UpdateManifests
+    displayName: Update k8s manifest files
+    steps:
+    - script: |
+        echo "Making script executable"
+        chmod +x scripts/update-k8s-manifests.sh
+
+        echo "Running update script for microservice: $(MicroserviceName)"
+        ./scripts/update-k8s-manifests.sh $(MicroserviceName)
+      displayName: "Update k8s manifest files"
+
+
+      
