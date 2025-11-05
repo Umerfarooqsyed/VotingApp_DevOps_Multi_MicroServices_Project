@@ -8,7 +8,7 @@ import logging
 
 # Options for Voting
 
-option_a = os.getenv('OPTION_A', "Azure")
+option_a = os.getenv('OPTION_A', "GCP")
 option_b = os.getenv('OPTION_B', "AWS")
 hostname = socket.gethostname()
 
