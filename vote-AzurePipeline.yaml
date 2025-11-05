@@ -66,10 +66,10 @@ stages:
     steps:
     - script: |
         echo "Making script executable"
-        chmod +x scripts/update_k8s_manifests.sh
+        chmod +x scripts/update-k8s-manifests.sh
 
         echo "Running update script for microservice: $(MicroserviceName)"
-        ./scripts/update_k8s_manifests.sh $(MicroserviceName)
+        ./scripts/update-k8s-manifests.sh $(MicroserviceName)
       displayName: "Update k8s manifest files"
 
 
