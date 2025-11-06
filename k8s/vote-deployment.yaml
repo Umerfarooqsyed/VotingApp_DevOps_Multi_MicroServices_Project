@@ -17,7 +17,7 @@ spec:
         app: vote
     spec:
       containers:
-      - image: umerfarooqsyed/voting-app:35
+      - image: umerfarooqsyed/voting-app:36
         name: vote
         ports:
         - containerPort: 80
