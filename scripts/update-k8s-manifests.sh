@@ -19,7 +19,7 @@ ARGUMENT=$1 # Make sure to put microservice name as argument after update-k8s-ma
 
 # Make changes to the Kubernetes manifest files
 # For example, let's say you want to change the image tag in a deployment.yaml file
-sed -i "s|image:.*|image: $REGISTRY_NAME/$IMAGE_REPOSITORY:$TAG|g" k8s/$ARGUMENT/$ARGUMENT-deployment.yaml
+sed -i "s|image:.*|image: $REGISTRY_NAME/$IMAGE_REPOSITORY:$TAG|g" k8s/$ARGUMENT-deployment.yaml
 
 # Add the modified files
 git add .
