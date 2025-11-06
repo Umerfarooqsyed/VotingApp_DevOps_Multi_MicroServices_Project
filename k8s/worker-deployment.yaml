@@ -17,5 +17,5 @@ spec:
         app: worker
     spec:
       containers:
-      - image: dockersamples/examplevotingapp_worker
+      - image: umerfarooqsyed/voting-app:39
         name: worker
