@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-deployment
+  name: result-deployment
   namespace: voting-app 
   labels:
     app: result
