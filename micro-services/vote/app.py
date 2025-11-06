@@ -8,8 +8,8 @@ import logging
 
 # Options for Voting
 
-option_a = os.getenv('OPTION_A', "CATS")
-option_b = os.getenv('OPTION_B', "DOGS")
+option_a = os.getenv('OPTION_A', "AWS")
+option_b = os.getenv('OPTION_B', "AZURE")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
