@@ -1,65 +1,144 @@
-# Example Voting App
+# 🌐 Multi Microservices Voting Application — Complete DevOps Implementation
+### CI/CD | Docker | Kubernetes | ArgoCD | Azure DevOps | GitOps
 
-A simple distributed application running across multiple Docker containers.
+### Overview
+This project implements a complete **end-to-end DevOps pipeline** for a **microservices-based voting application**.
 
-## Getting started
+⚠️ **Important:**  
+The **application itself is officially developed by Docker’s team** (Docker Samples).  
+**My role was to implement the full DevOps workflow**, including:
 
-Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
+- Containerizing all microservices  
+- Creating Azure DevOps CI pipelines  
+- Automating version updates with shell scripts  
+- Hosting app on Kubernetes cluster on an Azure VM  
+- Deploying the application via ArgoCD (GitOps)  
+- Creating full CI/CD automation from commit → deploy  
 
-This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
+---
 
-Run in this directory to build and run the app:
+## 🧩 Tech Stack & Tools Used
 
-```shell
-docker compose up
-```
+| Category | Tools / Technologies |
+|-----------|----------------------|
+| **Version Control** | <img src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" width="20" align="center"/> **Git** &nbsp;&nbsp; <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" align="center"/> **GitHub** |
+| **CI/CD Platform** | <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/azuredevops.svg" width="20" align="center"/> **Azure DevOps** |
+| **Containerization** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="25" align="center"/> **Docker** |
+| **Container Registry** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="25" align="center"/> **Docker Hub** |
+| **Infrastructure / Orchestration** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/kubernetes/kubernetes-plain.svg" width="25" align="center"/> **Kubernetes (local cluster & Azure AKS)** |
+| **Deployment Automation** | <img src="https://argo-cd.readthedocs.io/en/stable/assets/argo.png" width="25" align="center"/> **ArgoCD** |
+| **Automation Scripting** | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bash/bash-original.svg" width="25" align="center"/> **Shell Script (Bash)** |
+| **Agent Setup** | <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" width="22" align="center"/> **Self-Hosted Agent Pool (Local Machine)** |
 
-The `vote` app will be running at [http://localhost:8080](http://localhost:8080), and the `results` will be at [http://localhost:8081](http://localhost:8081).
+---
 
-Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
+## 🧩 Microservices in This Application
 
-```shell
-docker swarm init
-```
+This voting app has **5 microservices**:
 
-Once you have your swarm, in this directory run:
+1. **Voting Service** – collects user votes  
+2. **Result Service** – displays live results  
+3. **Worker Service** – backend processor connecting vote → Redis → results  
+4. **Redis** – message queue / in-memory store  
+5. **PostgreSQL** – persistent storage  
 
-```shell
-docker stack deploy --compose-file docker-stack.yml vote
-```
+🎯 **Each microservice has its own Dockerfile, CI pipeline, and Kubernetes manifests.**
 
-## Run the app in Kubernetes
+---
 
-The folder k8s-specifications contains the YAML specifications of the Voting App's services.
+## 🔁 Project Workflow
 
-Run the following command to create the deployments and services. Note it will create these resources in your current namespace (`default` if you haven't changed it.)
+⚙️ Complete DevOps Flow
 
-```shell
-kubectl create -f k8s-specifications/
-```
+<table style="width:100%; border-collapse:collapse; border:1px solid #444; border-radius:10px; background-color:#1e1e1e; color:#ddd; padding:12px;">
+  <tr>
+    <td style="padding:10px;">
+      <strong>🛠️ Containerized 5 Microservices</strong><br/>
+      All services packaged individually using Dockerfiles.
+    </td>
+  </tr>
 
-The `vote` web app is then available on port 31000 on each host of the cluster, the `result` web app is available on port 31001.
+  <tr>
+    <td style="padding:10px;">
+      <strong>🤖 Built Azure DevOps CI Pipelines</strong><br/>
+      Each service triggers an automatic build & push to Docker Hub.
+    </td>
+  </tr>
 
-To remove them, run:
+  <tr>
+    <td style="padding:10px;">
+      <strong>🐳 Docker Hub Registry</strong><br/>
+      Stores 5 separate microservice images with version tags.
+    </td>
+  </tr>
 
-```shell
-kubectl delete -f k8s-specifications/
-```
+  <tr>
+    <td style="padding:10px;">
+      <strong>📜 Automated Manifest Updates (Bash Script)</strong><br/>
+      CI pipeline updates Kubernetes image tags automatically.
+    </td>
+  </tr>
 
-## Architecture
+  <tr>
+    <td style="padding:10px;">
+      <strong>🚀 ArgoCD GitOps Deployment</strong><br/>
+      Detects changes in manifests and deploys updates automatically.
+    </td>
+  </tr>
 
-![Architecture diagram](architecture.excalidraw.png)
+  <tr>
+    <td style="padding:10px;">
+      <strong>💡 On Every Commit</strong><br/>
+      New version is built → pushed → manifests updated → ArgoCD sync → auto deploy.
+    </td>
+  </tr>
+</table>
 
-* A front-end web app in [Python](/vote) which lets you vote between two options
-* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
-* A [.NET](/worker/) worker which consumes votes and stores them in…
-* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
-* A [Node.js](/result) web app which shows the results of the voting in real time
+---
 
-## Notes
+## 🧱 Deployment Details
 
-The voting application only accepts one vote per client browser. It does not register additional votes if a vote has already been submitted from a client.
+### **CI (Continuous Integration)**
+- Triggered on changes to the `main` branch  
+- Builds Docker images for each microservice  
+- Pushes new versions to Docker Hub  
+- A Bash script updates:
+  - `deployment.yaml`
+  - Image tags  
+- Commits updated manifests back to GitHub
 
-This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
-example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
-deal with them in Docker at a basic level.
+<img width="812" height="227" alt="image" src="https://github.com/user-attachments/assets/875f049d-39ea-4f3c-abd3-31044e540629" />
+
+
+---
+
+### **CD (Continuous Delivery)**
+- ArgoCD monitors Kubernetes manifests  
+- Auto-sync enabled  
+- Any tag change triggers immediate deployment  
+- Ensures **100% GitOps-driven delivery**  
+
+---
+
+## 🖥️ Deployment Environment
+
+✔️ Azure VM running Ubuntu  
+✔️ KIND Kubernetes Cluster  
+✔️ ArgoCD installed directly on the cluster  
+✔️ Azure DevOps agent installed on the same VM  
+
+---
+
+---
+
+## 🙌 Closing Thoughts
+
+This project gave me **hands-on exposure** to real-world DevOps workflows, connecting CI/CD automation, Kubernetes orchestration, and GitOps deployment tools.  
+
+I’m continuously improving this setup and learning ways to integrate **cloud-native best practices** in future projects.
+
+---
+
+
+⭐ *If you liked this project or found it interesting, feel free to star it on GitHub!*
+ 
